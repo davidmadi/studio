@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import { BrowserRouter } from 'react-router-dom';
-import Navigation from '../components/navigation';
 import { ReactNode } from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -28,8 +26,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <Navigation />
-                <main><BrowserRouter>{children}</BrowserRouter></main>
+                <main>{children}</main>
             </body>
         </html>
     );
