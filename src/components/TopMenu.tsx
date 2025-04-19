@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 const TopMenu: React.FC = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState(''); // State for username
   const router = useRouter();
   const pathname = usePathname();
 
@@ -13,6 +14,10 @@ const TopMenu: React.FC = () => {
     // Check if the user is logged in based on a cookie or session
     const loggedIn = document.cookie.includes('loggedIn=true');
     setIsLoggedIn(loggedIn);
+    if (loggedIn) {
+      // In a real app, you'd fetch the username from an API or context
+      setUsername('John Doe'); 
+    }
   }, []);
 
   const handleLogout = () => {
@@ -25,8 +30,8 @@ const TopMenu: React.FC = () => {
 
 
   return (
-    <nav className="bg-gray-100 py-4">
-      <div className="container mx-auto flex items-center justify-between">
+    <nav className="bg-gray-100 py-4 ">
+      <div className="container mx-auto flex items-center justify-between ">
         <div className="flex items-center space-x-4">
           <Link href="/" className="text-lg font-bold text-gray-700">
             Home
@@ -38,6 +43,14 @@ const TopMenu: React.FC = () => {
             }`}
           >
             Dashboard
+          </Link>
+          <Link
+            href="/orders"
+            className={`text-gray-600 hover:text-blue-600 ${
+              pathname === '/orders' ? activeLinkStyle : ''
+            }`}
+          >
+            Orders
           </Link>
           {/* Conditionally render based on login status */}
           {!isLoggedIn && (
@@ -51,15 +64,19 @@ const TopMenu: React.FC = () => {
             </Link>
           )}
         </div>
-
-        {isLoggedIn && (
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            Logout
-          </button>
-        )}
+        <div className=" flex items-center space-x-4">
+          {isLoggedIn && username && (
+            <span className="text-gray-700">Welcome, {username}</span>
+          )}
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+            >
+              Logout
+            </button>
+          )}
+        </div>
       </div>
     </nav>
   );

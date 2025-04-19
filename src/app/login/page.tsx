@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUserCircle } from 'react-icons/fa'; // Import an icon
 
@@ -14,10 +14,12 @@ const LoginPage: React.FC = () => {
         setIsLoggedIn(true);
         document.cookie = "loggedIn=true; path=/";
     };
-
-    if (isLoggedIn) {
-        router.push('/dashboard');
-    }
+    
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.push('/dashboard');
+        }
+    }, [isLoggedIn, router]);
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-xl">
